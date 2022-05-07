@@ -1,30 +1,44 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {connect} from "react-redux";
+import {getEventById, updateEvent} from "../../slices/event-slice";
+import {useNavigate, useParams} from "react-router";
 import {Button, DatePicker, Form, Input} from "antd";
 import moment from "moment";
-import api from "../http-config"
-import {useNavigate} from "react-router";
+import {formStyle} from "../../utils/formStyle";
 
-function CreateEvent(props) {
-    const navigate = useNavigate()
+function UpdateEvent({getEventById, updateEvent}) {
+    const { TextArea } = Input;
+    const params = useParams();
+    const [id, setId] = useState(-1);
+    const navigate = useNavigate();
+    useEffect(() => {
+        getEventById(params.id).then((response) => {
+            setId(response.payload.id)
+            form.setFieldsValue({
+                name: response.payload.name,
+                title: response.payload.title,
+                body: response.payload.body,
+                startDate: moment(response.payload.startDate),
+                endDate: moment(response.payload.endDate),
+            })
+        });
+
+    }, []);
     const onFinish = (values) => {
         const endDate = values.endDate.toISOString()
         const startDate = values.startDate.toISOString()
-        const vv = {...values, endDate, startDate}
-        console.log(vv);
-        api.post(`/Events`, vv).then(res => {
-            console.log(res)
-        }).catch(err => {
-            console.log(err)
-        })
-        navigate("/");
+        const vv = {...values, endDate, startDate, id}
+        updateEvent(vv).then(navigate("/events"))
     };
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
-
+    const [form] = Form.useForm();
     return (
         <Form
+            style={formStyle}
+            form={form}
             name="basic"
             labelCol={{
                 span: 8,
@@ -75,7 +89,7 @@ function CreateEvent(props) {
                     },
                 ]}
             >
-                <Input/>
+                <TextArea/>
             </Form.Item>
             <Form.Item
                 label="Start Date"
@@ -123,4 +137,5 @@ function CreateEvent(props) {
     );
 }
 
-export default CreateEvent;
+export default connect(null, {getEventById, updateEvent})(UpdateEvent);
+// export default UpdateEvent;

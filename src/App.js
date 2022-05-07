@@ -1,7 +1,7 @@
-import EventList from "./components/EventList";
+import EventList from "./components/event/EventList";
 import {Route, Routes} from "react-router";
-import EventDetail from "./components/EventDetail";
-import CreateEvent from "./components/CreateEvent";
+import EventDetail from "./components/event/EventDetail";
+import CreateEvent from "./components/event/CreateEvent";
 
 function App() {
     return (

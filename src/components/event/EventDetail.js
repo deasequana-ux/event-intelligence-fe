@@ -1,27 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router";
-import api from "../http-config"
 import {Card, Divider} from "antd";
 import Meta from "antd/es/card/Meta";
-import {DeleteOutlined, EditOutlined, EllipsisOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import {connect} from "react-redux";
+import {deleteEvent, getEventById} from "../../slices/event-slice";
 
-function EventDetail(props) {
+function EventDetail({getEventById, deleteEvent, roleInfo}) {
     const navigate = useNavigate();
     const params = useParams();
     const [event, setEvent] = useState({});
-    const deleteEvent = (id) => {
-        api.delete(`/Events/${id}`)
-            .then(res => navigate("/"))
-            .catch(err => console.log(err))
-    }
-    useEffect(() => {
-        api.get(`/Events/${params.id}`)
-            .then(res => {
-                console.log(res.data)
-                setEvent(res.data)
-            })
-    }, []);
 
+    useEffect(() => {
+        getEventById(params.id).then(res => {
+            setEvent(res.payload)
+        })
+        console.log(roleInfo)
+    }, []);
+    const deleteHandle = (id) => {
+        deleteEvent(id).then(res => navigate("/events"))
+    }
 
     const cardStyle = {
         marginTop: '7%',
@@ -41,8 +39,8 @@ function EventDetail(props) {
                     />
                 }
                 actions={[
-                    <DeleteOutlined key="setting" onClick={() => deleteEvent(event.id)}/>,
-                    <EditOutlined key="edit"/>,
+                    <DeleteOutlined key="setting" onClick={() => deleteHandle(event.id)}/>,
+                    <EditOutlined key="edit" onClick={() => navigate(`/events/update/${event.id}`)}/>,
                 ]}
 
             >
@@ -59,4 +57,9 @@ function EventDetail(props) {
     );
 }
 
-export default EventDetail;
+const mapStateToProps = (state) => {
+    return {
+        roleInfo: state.auth.roleInfo,
+    };
+};
+export default connect(mapStateToProps, {getEventById, deleteEvent})(EventDetail);
