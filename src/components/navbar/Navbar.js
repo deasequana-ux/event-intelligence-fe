@@ -36,10 +36,6 @@ function Navbar(props) {
                                 props.roleInfo === manager
                                     ?
                                     <>
-                                        <Menu.Item key="users" icon={<UserOutlined/>}
-                                                   onClick={() => navigate("/users")}>
-                                            Users
-                                        </Menu.Item>
                                         <Menu.Item key="createUser" icon={<UserAddOutlined/>}
                                                    onClick={() => navigate("/create/user")}>
                                             Create User
@@ -56,6 +52,10 @@ function Navbar(props) {
                                         </Menu.Item>
                                     </> : null
                             }
+                            <Menu.Item key="users" icon={<UserOutlined/>}
+                                       onClick={() => navigate("/users")}>
+                                Users
+                            </Menu.Item>
                             <Menu.Item key="events" icon={<LogoutOutlined/>} onClick={() => navigate("/events")}>
                                 Events
                             </Menu.Item>
