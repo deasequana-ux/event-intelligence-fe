@@ -9,18 +9,21 @@ export const loginAction = createAsyncThunk(
         if (response.status === 201) {
             localStorage.setItem("token", response.data.token);
             let decodedToken = jwtDecode(response.data.token);
+            // console.log("decoded token : ", decodedToken)
             return {
                 isAuth: true,
                 name: decodedToken.name,
                 surname: decodedToken.surname,
                 roleInfo: decodedToken.roleInfo,
+                id: decodedToken.userId
             };
         }
         return {
             isAuth: false,
             name: "",
             roleInfo: "",
-            surname: ""
+            surname: "",
+            id:-1
         };
     }
 );

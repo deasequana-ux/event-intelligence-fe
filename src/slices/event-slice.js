@@ -1,10 +1,10 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {getEventsAction} from "../actions/eventAction/getEventsAction";
-import {createEventAction} from "../actions/eventAction/createEventsAction";
+import {getEventsAction} from "../actions/eventActions/getEventsAction";
+import {createEventAction} from "../actions/eventActions/createEventsAction";
 import {eventList} from "../states/eventState";
-import {updateEventAction} from "../actions/eventAction/updateEventAction";
-import {getEventByIdAction} from "../actions/eventAction/getEventsByIdAction";
-import {deleteEventAction} from "../actions/eventAction/deleteEventAction";
+import {updateEventAction} from "../actions/eventActions/updateEventAction";
+import {getEventByIdAction} from "../actions/eventActions/getEventsByIdAction";
+import {deleteEventAction} from "../actions/eventActions/deleteEventAction";
 
 
 export const getEvents = getEventsAction;
@@ -13,7 +13,7 @@ export const updateEvent = updateEventAction;
 export const getEventById = getEventByIdAction;
 export const deleteEvent = deleteEventAction;
 
-const courseSlice = createSlice({
+const eventSlice = createSlice({
     name: "events",
     initialState: eventList,
     extraReducers: {
@@ -36,5 +36,5 @@ const courseSlice = createSlice({
         },*/
     },
 });
-const {reducer} = courseSlice;
+const {reducer} = eventSlice;
 export default reducer;

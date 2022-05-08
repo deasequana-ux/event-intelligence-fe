@@ -3,4 +3,5 @@ export const authState = {
     name: "",
     roleInfo: "",
     surname: "",
+    id :-1
 };

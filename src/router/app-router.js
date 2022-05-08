@@ -8,6 +8,8 @@ import UpdateEvent from "../components/event/UpdateEvent";
 import EventDetail from "../components/event/EventDetail";
 import RequireAuth from "../utils/require-auth";
 import Landing from "../components/landing/Landing";
+import ReceivedMessage from "../components/message/ReceivedMessage";
+import SentMessage from "../components/message/SentMessage";
 
 const AppRouter = () => {
     return (
@@ -36,6 +38,14 @@ const AppRouter = () => {
                     <Route
                         path="/events/:id"
                         element={<RequireAuth><EventDetail/></RequireAuth>}>
+                    </Route>
+                    <Route
+                        path="/messages/received"
+                        element={<RequireAuth><ReceivedMessage/></RequireAuth>}>
+                    </Route>
+                    <Route
+                        path="/messages/sent"
+                        element={<RequireAuth><SentMessage/></RequireAuth>}>
                     </Route>
                 </Routes>
             </BrowserRouter>

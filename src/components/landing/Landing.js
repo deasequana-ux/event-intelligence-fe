@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 function Landing(props) {
     const landingStyle = {
-        marginTop: '7%',
+        marginTop: '10%',
         marginLeft: '20%',
         marginRight: '20%',
         width: '60%',
