@@ -6,6 +6,9 @@ class MessageService{
     getSentMessage(page,pageSize,userId){
         return api.get(`/Messages/${userId}/sent?Page=${page}&PageSize=${pageSize}`)
     }
+    sendMessage(payload){
+        return api.post(`/Messages`, payload)
+    }
 }
 
 export default new MessageService();

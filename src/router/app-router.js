@@ -10,6 +10,8 @@ import RequireAuth from "../utils/require-auth";
 import Landing from "../components/landing/Landing";
 import ReceivedMessage from "../components/message/ReceivedMessage";
 import SentMessage from "../components/message/SentMessage";
+import UserList from "../components/user/UserList";
+import SendMessage from "../components/message/SendMessage";
 
 const AppRouter = () => {
     return (
@@ -46,6 +48,14 @@ const AppRouter = () => {
                     <Route
                         path="/messages/sent"
                         element={<RequireAuth><SentMessage/></RequireAuth>}>
+                    </Route>
+                    <Route
+                        path="/users"
+                        element={<RequireAuth><UserList/></RequireAuth>}>
+                    </Route>
+                    <Route
+                        path="/message/:id"
+                        element={<RequireAuth><SendMessage/></RequireAuth>}>
                     </Route>
                 </Routes>
             </BrowserRouter>
