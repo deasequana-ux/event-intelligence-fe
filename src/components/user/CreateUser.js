@@ -131,7 +131,7 @@ function CreateUser({getRoles,createUser}) {
                 <Select options={currentRoles} onChange={handleChange}/>
             </Form.Item>
             <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" style={{marginLeft:"138%"}}>
                     Submit
                 </Button>
             </Form.Item>

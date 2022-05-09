@@ -113,7 +113,7 @@ function CreateEvent(props) {
                     span: 16,
                 }}
             >
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" style={{marginLeft:"88%"}}>
                     Submit
                 </Button>
             </Form.Item>

@@ -5,33 +5,27 @@ import Meta from "antd/es/card/Meta";
 import {useNavigate} from "react-router";
 import {getEvents} from "../../slices/event-slice";
 import {connect} from "react-redux";
+import './style.css';
 
 function EventList({events, getEvents, isAuth, roleInfo}) {
     const navigate = useNavigate();
-    const cardStyle = {
-        marginTop: '7%',
-        marginLeft: '5%',
-        marginRight: '5%',
-        width: '25%',
-    }
     function handlePageRequest(page, pageSize) {
         getEvents({page:page-1,pageSize:pageSize});
     }
-
 
     useEffect(() => {
         getEvents({page:0,pageSize:10});
     }, [])
     return (
-            <>
+            <div className='mainDiv'>
+                <div className='cardDiv'>
                 {
                 events.items && events.items.length > 0
                 ?
                     events.items.map(event => (
-                <Card
+                <Card className='cardStyle'
                     key={event.id}
                     hoverable={true}
-                    style={cardStyle}
                     onClick={() => navigate(`/events/${event.id}`)}
                     cover={
                         <img
@@ -54,12 +48,14 @@ function EventList({events, getEvents, isAuth, roleInfo}) {
                 ))
                 : null
                 }
-                <div style={{marginLeft: 100, whiteSpace: 'nowrap', marginTop: 100, marginRight: 100}}>
+                </div>
+                <div className='pagination'>
 
                     <Pagination defaultCurrent={1} total={events.count}
                                 onChange={(page, pageSize) => handlePageRequest(page, pageSize)}/>
                 </div>
-            </>
+                <div/>
+            </div>
     );
 }
 const mapStateToProps = (state) => {
