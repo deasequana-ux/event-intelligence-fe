@@ -1,8 +1,8 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import messageService from "../../services/message-service";
 
-export const getSentMessageAction = createAsyncThunk("message/sent", async ({page,pageSize, userId}) => {
-    let response = await messageService.getSentMessage(page,pageSize,userId);
+export const sendMessageAction = createAsyncThunk("message/send", async (payload) => {
+    let response = await messageService.sendMessage(payload);
     if (response.data) {
         return response.data;
     }

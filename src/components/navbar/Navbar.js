@@ -37,7 +37,7 @@ function Navbar(props) {
                                     ?
                                     <>
                                         <Menu.Item key="createUser" icon={<UserAddOutlined/>}
-                                                   onClick={() => navigate("/create/user")}>
+                                                   onClick={() => navigate("/users/create")}>
                                             Create User
                                         </Menu.Item>
                                     </> : null
