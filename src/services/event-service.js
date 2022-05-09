@@ -15,6 +15,22 @@ class EventService{
     DeleteEvent(id){
         return api.delete(`/Events/${id}`)
     }
+    getCandidateUsersToAssign(id){
+        return api.get(`/Events/${id}/candidates`)
+    }
+    assignUsersToEvent(payload){
+        return api.post(`/Events/assign/users`, payload)
+    }
+    getAssignedUsers(id){
+        return api.get(`/Events/${id}/participants`)
+    }
+    getCommentsByEventId(page,pageSize,id){
+        return api.get(`/Events/${id}/comments?Page=${page}&PageSize=${pageSize}`)
+    }
+    commentToEvent(payload){
+        return api.post(`/Comments`, payload)
+    }
+
 }
 
 export default new EventService();

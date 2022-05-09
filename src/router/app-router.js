@@ -14,6 +14,7 @@ import UserList from "../components/user/UserList";
 import SendMessage from "../components/message/SendMessage";
 import CreateUser from "../components/user/CreateUser";
 import UpdateUser from "../components/user/UpdateUser";
+import AssignUserToEvent from "../components/event/AssignUserToEvent";
 
 const AppRouter = () => {
     return (
@@ -42,6 +43,10 @@ const AppRouter = () => {
                     <Route
                         path="/events/:id"
                         element={<RequireAuth><EventDetail/></RequireAuth>}>
+                    </Route>
+                    <Route
+                        path="/events/:id/assign"
+                        element={<RequireAuth><AssignUserToEvent/></RequireAuth>}>
                     </Route>
                     <Route
                         path="/messages/received"

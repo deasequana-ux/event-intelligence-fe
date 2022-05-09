@@ -10,7 +10,7 @@ const reducer = {
     events: eventReducer,
     messages: messageReducer,
     users: userReducer,
-    roles: roleReducer
+    roles: roleReducer,
 };
 
 const store = configureStore({

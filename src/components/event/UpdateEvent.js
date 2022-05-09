@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from "react-redux";
-import {getEventById, updateEvent} from "../../slices/event-slice";
+import {getAssignedUsers, getEventById, updateEvent} from "../../slices/event-slice";
 import {useNavigate, useParams} from "react-router";
 import {Button, DatePicker, Form, Input} from "antd";
 import moment from "moment";
@@ -137,5 +137,5 @@ function UpdateEvent({getEventById, updateEvent}) {
     );
 }
 
-export default connect(null, {getEventById, updateEvent})(UpdateEvent);
+export default connect(null, {getEventById, updateEvent, getAssignedUsers})(UpdateEvent);
 // export default UpdateEvent;
