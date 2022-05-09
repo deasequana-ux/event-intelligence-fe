@@ -1,0 +1,18 @@
+.cardDiv{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  /* Responsive layout */
+  @media (max-width: 800px) {
+    .deneme {
+      flex-direction: column;
+    }
+  }
+
+.cardStyle {
+    margin-top: 7%;
+    margin-left: 5%;
+    margin-right: 10px;
+    width: 25%;
+}
