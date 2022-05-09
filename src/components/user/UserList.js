@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from "react-redux";
-import {getUsers} from "../../slices/user-slice";
+import {deleteUser, getUsers} from "../../slices/user-slice";
 import {Popconfirm, Table, message} from "antd";
 import {Link} from "react-router-dom";
 import {DeleteOutlined, EditOutlined, MailOutlined} from "@ant-design/icons";
 
-function UserList({getUsers,currentId}) {
+function UserList({getUsers,currentId,deleteUser}) {
     const tableStyle = {
         marginTop: '2%',
         marginLeft: '2%',
@@ -13,7 +13,11 @@ function UserList({getUsers,currentId}) {
     }
 
     function confirm(id) {
-        message.success('Kayıt başarıyla silindi...');
+        message.success('Kayıt başarıyla silindi...', id);
+        console.log(id)
+        deleteUser(id).then(() => {
+            loadUsers()
+        })
 
     }
 
@@ -21,10 +25,7 @@ function UserList({getUsers,currentId}) {
         message.info('Kaydı silmekten vazgeçtiniz...');
     }
 
-    const [tableData, setTableData] = useState([])
-    const data = []
-    const [size, setSize] = useState(0);
-    useEffect(() => {
+    const loadUsers = () => {
         getUsers({page: 0, pageSize: 10}).then(res => {
             res.payload.items.map(item => {
                 data.push({
@@ -37,6 +38,25 @@ function UserList({getUsers,currentId}) {
             setTableData(data)
             setSize(res.payload.count)
         })
+    }
+
+    const [tableData, setTableData] = useState([])
+    const data = []
+    const [size, setSize] = useState(0);
+    useEffect(() => {
+        /*getUsers({page: 0, pageSize: 10}).then(res => {
+            res.payload.items.map(item => {
+                data.push({
+                    key: item.id,
+                    name: item.name,
+                    surname: item.surname,
+                    email: item.email
+                })
+            })
+            setTableData(data)
+            setSize(res.payload.count)
+        })*/
+        loadUsers()
     }, [])
     const columns = [
         {
@@ -62,14 +82,14 @@ function UserList({getUsers,currentId}) {
             render: (text, record) => <>
                 <Popconfirm
                     title="Bu kaydı silmek istediğinizden emin misiniz ?"
-                    onConfirm={() => confirm(record.id)}
+                    onConfirm={() => confirm(record.key)}
                     onCancel={cancel}
                     okText="Evet"
                     cancelText="Hayır"
                 >
                     <DeleteOutlined style={{marginRight: '10px'}}/>
                 </Popconfirm>
-                <Link to={`/user/${record.id}`}><EditOutlined style={{marginRight: '10px'}}/></Link>
+                <Link to={`/users/update/${record.key}`}><EditOutlined style={{marginRight: '10px'}}/></Link>
                 <Link to={`/message/${record.key}`}><MailOutlined/></Link>
 
 
@@ -88,4 +108,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, {getUsers})(UserList);
+export default connect(mapStateToProps, {getUsers, deleteUser})(UserList);

@@ -12,6 +12,8 @@ import ReceivedMessage from "../components/message/ReceivedMessage";
 import SentMessage from "../components/message/SentMessage";
 import UserList from "../components/user/UserList";
 import SendMessage from "../components/message/SendMessage";
+import CreateUser from "../components/user/CreateUser";
+import UpdateUser from "../components/user/UpdateUser";
 
 const AppRouter = () => {
     return (
@@ -52,6 +54,14 @@ const AppRouter = () => {
                     <Route
                         path="/users"
                         element={<RequireAuth><UserList/></RequireAuth>}>
+                    </Route>
+                    <Route
+                        path="/users/create"
+                        element={<RequireAuth><CreateUser/></RequireAuth>}>
+                    </Route>
+                    <Route
+                        path="/users/update/:id"
+                        element={<RequireAuth><UpdateUser/></RequireAuth>}>
                     </Route>
                     <Route
                         path="/message/:id"
