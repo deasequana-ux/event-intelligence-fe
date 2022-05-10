@@ -135,7 +135,7 @@ function UpdateEvent({getEventById, updateEvent}) {
                     span: 16,
                 }}
             >
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" style={{position:"absolute", right:"10px"}}>
                     Submit
                 </Button>
             </Form.Item>

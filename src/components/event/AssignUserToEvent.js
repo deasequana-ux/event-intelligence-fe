@@ -4,6 +4,7 @@ import {assignUsersAction, getCandidateUsersToAssign} from "../../slices/event-s
 import {Button, Checkbox, Form, Table, message} from "antd";
 import {useNavigate, useParams} from "react-router";
 import {unwrapResult} from "@reduxjs/toolkit";
+import {tableStyle} from "../../utils/tableStyle";
 
 function AssignUserToEvent({getCandidateUsersToAssign, assignUsersAction}) {
     const params = useParams();
@@ -83,7 +84,7 @@ function AssignUserToEvent({getCandidateUsersToAssign, assignUsersAction}) {
                autoComplete="off"
            >
                <Form.Item>
-                   <Table columns={columns} dataSource={tableData} pagi/>
+                   <Table style={tableStyle} columns={columns} dataSource={tableData} pagination={false}/>
                </Form.Item>
                <Form.Item
                    wrapperCol={{
@@ -91,7 +92,7 @@ function AssignUserToEvent({getCandidateUsersToAssign, assignUsersAction}) {
                        span: 16,
                    }}
                >
-                   <Button type="primary" htmlType="submit">
+                   <Button type="primary" htmlType="submit" style={{position:"absolute", right:"80px"}}>
                        Submit
                    </Button>
                </Form.Item>

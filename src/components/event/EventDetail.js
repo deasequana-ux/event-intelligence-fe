@@ -157,6 +157,7 @@ function EventDetail({
                     disabled={isNotOkToComment}
                     onPressEnter={(e) => onPressEnterToComment(e)}
                 />
+                <div style={{ marginBottom:"15px"}}>
                 {comments.items.map((comment) => (
                     <Comment
                         key={comment.id}
@@ -172,7 +173,7 @@ function EventDetail({
                         content={<p>{comment.body}</p>}
                     />
                 ))}
-                <div style={{display: "inline-block", marginLeft: "87%", marginTop: "10px"}}>
+                <div style={{ position: "absolute",right:"20px",bottom:"50px"}}>
                     <Pagination
                         defaultCurrent={1}
                         pageSize={commentsPaginationSize}
@@ -181,6 +182,8 @@ function EventDetail({
                         onChange={(page, pageSize) => handlePageRequest(page, pageSize)}
                     />
                 </div>
+                </div>
+                
             </Card>
         </>
     );

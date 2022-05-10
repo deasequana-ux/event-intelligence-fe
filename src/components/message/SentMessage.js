@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 import {getSentMessages} from "../../slices/message-slice";
 import {Pagination, Table, message} from "antd";
-import {paginationStyle} from "../../utils/paginationStyle";
 import {tableStyle} from "../../utils/tableStyle";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {sentMessagePaginationSize} from "../../utils/paginationConfig";
@@ -62,7 +61,7 @@ function SentMessage({getSentMessages, id}) {
                 pagination={false}
                 scroll={{y: 240}}
             />
-            <div style={paginationStyle}>
+            <div style={{ position: "absolute", top: "380px", right: "30px"}}>
                 <Pagination
                     defaultCurrent={1}
                     total={size}

@@ -5,7 +5,6 @@ import {Popconfirm, Table, message} from "antd";
 import {Link} from "react-router-dom";
 import {DeleteOutlined, EditOutlined, MailOutlined} from "@ant-design/icons";
 import {Pagination} from "antd";
-import {paginationStyle} from "../../utils/paginationStyle";
 import {tableStyle} from "../../utils/tableStyle";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {manager} from "../../utils/rolesDefinition";
@@ -105,7 +104,7 @@ function UserList({getUsers, deleteUser, roleInfo}) {
     return (
         <div>
             <Table style={tableStyle} columns={columns} dataSource={tableData} pagination={false}/>
-            <div style={paginationStyle}>
+            <div style={{ position: "absolute", top: "430px", right: "30px"}}>
                 <Pagination
                     defaultCurrent={1}
                     pageSize={userListPaginationSize}

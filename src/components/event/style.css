@@ -19,8 +19,9 @@
 }
 
 .pagination{
-  display: inline-block;
-  margin-left: 92%;
+  position: absolute;
+  top: 730px;
+  right: 130px;
 }
 
 .mainDiv{
