@@ -1,8 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {connect} from "react-redux";
 import {login} from "../../slices/auth-slice";
-import {Button, Form, Input} from "antd";
+import {Button, Form, Input,message} from "antd";
 import {useNavigate} from "react-router";
+import {unwrapResult} from "@reduxjs/toolkit";
 
 function Login(props) {
     const navigate = useNavigate();
@@ -17,14 +18,19 @@ function Login(props) {
 
     const onFinish = (values) => {
         props.login(values)
-            .then((res) => {
+            .then(unwrapResult)
+            .then(() =>{
+                message.success("Successfully logged in").then()
                 navigate("/events")
+            })
+            .catch(() => {
+                message.error("Login failed").then()
             })
     };
 
     return (
         <>
-            <h1 style={{textAlign:'center', marginTop:'10%'}}>LOGIN FORM</h1>
+            <h1 style={{textAlign: 'center', marginTop: '10%'}}>LOGIN FORM</h1>
             <Form
                 style={formStyle}
                 name="basic"

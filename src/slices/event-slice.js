@@ -8,7 +8,7 @@ import {deleteEventAction} from "../actions/eventActions/deleteEventAction";
 import {assignUsersToEventAction} from "../actions/eventActions/assignUsersToEvent";
 import {getCandidateUsersToAssignsAction} from "../actions/eventActions/getCandidateUsersToAssignAction";
 import {getAssignedUsersAction} from "../actions/eventActions/getAssignedUsers";
-import {getCommentsByEventIdAction} from "../actions/eventActions/getMessagesByEventIdAction";
+import {getCommentsByEventIdAction} from "../actions/eventActions/getCommentsByEventIdAction";
 import {commentToEventIdAction} from "../actions/eventActions/commentToEventAction";
 
 
@@ -29,21 +29,7 @@ const eventSlice = createSlice({
     extraReducers: {
         [getEvents.fulfilled]: (state, action) => {
             return {...action.payload};
-        },
-        /*[updateEvent.fulfilled]: (state, action) => {
-            const index = state.findIndex(course => course.id === action.payload.id);
-            state.items[index] = {
-                ...state.items[index],
-                ...action.payload,
-            };
-            return state;
-        },*/
-        [getEventById.fulfilled]: (state, action) => {
-            return action.payload;
         }
-        /*[createEvent.fulfilled]: (state, action) => {
-            return [...state.items, action.payload];
-        },*/
     },
 });
 const {reducer} = eventSlice;

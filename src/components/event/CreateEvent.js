@@ -1,10 +1,11 @@
 import React from 'react';
-import {Button, DatePicker, Form, Input} from "antd";
+import {Button, DatePicker, Form, Input, message} from "antd";
 import moment from "moment";
 import {useNavigate} from "react-router";
 import {connect} from "react-redux";
 import {createEvent} from "../../slices/event-slice";
 import {formStyle} from "../../utils/formStyle";
+import {unwrapResult} from "@reduxjs/toolkit";
 
 function CreateEvent(props) {
     const { TextArea } = Input;
@@ -13,13 +14,18 @@ function CreateEvent(props) {
         const endDate = values.endDate.toISOString()
         const startDate = values.startDate.toISOString()
         const vv = {...values, endDate, startDate}
-        props.createEvent(vv);
-        navigate("/events");
+        props.createEvent(vv)
+            .then(unwrapResult)
+            .then(() => {
+                message.success("Event created succesfully").then()
+                navigate("/events")
+            })
+            .catch(() => {
+                message.error("Event can not be created!").then()
+            })
+
     };
 
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
     return (
         <Form
             style={formStyle}
@@ -34,7 +40,6 @@ function CreateEvent(props) {
                 remember: true,
             }}
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
             autoComplete="off"
         >
             <Form.Item

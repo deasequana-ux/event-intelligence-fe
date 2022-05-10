@@ -1,18 +1,24 @@
 import React from 'react';
-import {Button, Form, Input} from "antd";
+import {Button, Form, Input, message} from "antd";
 import {useNavigate, useParams} from "react-router";
 import {connect} from "react-redux";
 import {formStyle} from "../../utils/formStyle";
 import {sendMessage} from "../../slices/message-slice";
-
+import {unwrapResult} from "@reduxjs/toolkit";
 function SendMessage({id, users, sendMessage}) {
     const params = useParams();
-    const { TextArea } = Input;
+    const {TextArea} = Input;
     const navigate = useNavigate()
     const onFinish = (values) => {
         delete values.senderUser
-        const vv = {...values, senderUserId:Number(id),receiverUserId:Number(params.id)}
-        sendMessage(vv).then(() => navigate("/users"))
+        const vv = {...values, senderUserId: Number(id), receiverUserId: Number(params.id)}
+        sendMessage(vv)
+            .then(unwrapResult)
+            .then(() => {
+                message.success("Message has been sent successfully.").then()
+                navigate("/users")
+            })
+            .catch(() => message.error("Message could not be sent !"))
     };
     const getUserById = (id) => {
         let ru = users.items.filter(x => x.id === Number(id))
@@ -73,7 +79,7 @@ function SendMessage({id, users, sendMessage}) {
                         },
                     ]}
                 >
-                    <TextArea rows={4} />
+                    <TextArea rows={4}/>
                 </Form.Item>
                 <Form.Item
                     wrapperCol={{
@@ -90,10 +96,11 @@ function SendMessage({id, users, sendMessage}) {
 
     );
 }
+
 const mapStateToProps = (state) => {
     return {
         id: state.auth.id,
-        users:state.users
+        users: state.users
     };
 };
 export default connect(mapStateToProps, {sendMessage})(SendMessage);

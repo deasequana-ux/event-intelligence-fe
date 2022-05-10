@@ -2,9 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {connect} from "react-redux";
 import {getAssignedUsers, getEventById, updateEvent} from "../../slices/event-slice";
 import {useNavigate, useParams} from "react-router";
-import {Button, DatePicker, Form, Input} from "antd";
+import {Button, DatePicker, Form, Input, message} from "antd";
 import moment from "moment";
 import {formStyle} from "../../utils/formStyle";
+import {unwrapResult} from "@reduxjs/toolkit";
 
 function UpdateEvent({getEventById, updateEvent}) {
     const { TextArea } = Input;
@@ -12,28 +13,34 @@ function UpdateEvent({getEventById, updateEvent}) {
     const [id, setId] = useState(-1);
     const navigate = useNavigate();
     useEffect(() => {
-        getEventById(params.id).then((response) => {
-            setId(response.payload.id)
-            form.setFieldsValue({
-                name: response.payload.name,
-                title: response.payload.title,
-                body: response.payload.body,
-                startDate: moment(response.payload.startDate),
-                endDate: moment(response.payload.endDate),
+        getEventById(params.id)
+            .then(unwrapResult)
+            .then((response) => {
+                setId(response.id)
+                form.setFieldsValue({
+                    name: response.name,
+                    title: response.title,
+                    body: response.body,
+                    startDate: moment(response.startDate),
+                    endDate: moment(response.endDate),
+                })
             })
-        });
+            .catch(() => message.error("asdasd"))
 
     }, []);
     const onFinish = (values) => {
         const endDate = values.endDate.toISOString()
         const startDate = values.startDate.toISOString()
         const vv = {...values, endDate, startDate, id}
-        updateEvent(vv).then(navigate("/events"))
+        updateEvent(vv)
+            .then(unwrapResult)
+            .then(() => {
+                message.success("The event could be update successfully").then()
+                navigate("/events")
+            })
+            .catch(() => message.error("The event could not be updated !"))
     };
 
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
     const [form] = Form.useForm();
     return (
         <Form
@@ -50,7 +57,6 @@ function UpdateEvent({getEventById, updateEvent}) {
                 remember: true,
             }}
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
             autoComplete="off"
         >
             <Form.Item
@@ -138,4 +144,3 @@ function UpdateEvent({getEventById, updateEvent}) {
 }
 
 export default connect(null, {getEventById, updateEvent, getAssignedUsers})(UpdateEvent);
-// export default UpdateEvent;

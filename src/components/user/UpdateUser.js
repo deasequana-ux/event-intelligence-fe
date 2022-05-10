@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Form, Button, Select, Input, InputNumber} from 'antd';
+import {Form, Button, Select, Input, InputNumber, message} from 'antd';
 import {connect} from "react-redux";
 import {getRoles} from "../../slices/role-slice";
 import {formStyle} from "../../utils/formStyle";
 import {updateUser} from "../../slices/user-slice";
 import {useNavigate, useParams} from "react-router";
+import {unwrapResult} from "@reduxjs/toolkit";
 
 
 function UpdateUser({getRoles, users, updateUser}) {
@@ -22,7 +23,7 @@ function UpdateUser({getRoles, users, updateUser}) {
             })
             setCurrentRoles(roles)
         })
-        const currentUser = getUserById(params.id)
+        const currentUser = getUserByIdFromState(params.id)
         form.setFieldsValue({
             name: currentUser.name,
             surname: currentUser.surname,
@@ -39,18 +40,20 @@ function UpdateUser({getRoles, users, updateUser}) {
     const [form] = Form.useForm();
 
     const onFinish = values => {
-        console.log('Received values of form:', values);
         const vv = {...values, id:Number(params.id)}
-        updateUser(vv).then(res => {
-            console.log(res)
+        updateUser(vv)
+            .then(unwrapResult)
+            .then(res => {
+            message.success("Kullanıcı güncelleme işlemi başarı ile gerçekleşti").then()
             navigate("/users");
-        })
+            })
+            .catch(() => message.error("Kullanıcı güncelleme işlemi gerçekleştirilemedi."))
     };
 
     const handleChange = () => {
         form.setFieldsValue({sights: []});
     };
-    const getUserById = (id) => {
+    const getUserByIdFromState = (id) => {
         let ru = users.items.filter(x => x.id === Number(id))
         if (ru.length > 0) return ru[0];
     }
@@ -147,7 +150,7 @@ function UpdateUser({getRoles, users, updateUser}) {
             >
                 <Input/>
             </Form.Item>
-            <Form.Item name="roleId" label="Role" initialValue={getUserById(params.id).roleId} rules={[{required: true, message: 'Please input user role'}]}>
+            <Form.Item name="roleId" label="Role" initialValue={getUserByIdFromState(params.id).roleId} rules={[{required: true, message: 'Please input user role'}]}>
                 <Select options={currentRoles} onChange={handleChange}/>
             </Form.Item>
             <Form.Item>

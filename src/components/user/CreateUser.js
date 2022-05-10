@@ -1,33 +1,42 @@
 import React, {useEffect, useState} from 'react';
-import {Form, Button, Select, Input, InputNumber} from 'antd';
+import {Form, Button, Select, Input, InputNumber, message} from 'antd';
 import {connect} from "react-redux";
 import {getRoles} from "../../slices/role-slice";
 import {formStyle} from "../../utils/formStyle";
 import {createUser} from "../../slices/user-slice";
+import {unwrapResult} from "@reduxjs/toolkit";
+import {useNavigate} from "react-router";
 
-
-function CreateUser({getRoles,createUser}) {
+function CreateUser({getRoles, createUser}) {
+    const navigate = useNavigate();
     const roles = [];
     const [currentRoles, setCurrentRoles] = useState([]);
     useEffect(() => {
-        getRoles({page: 0, pageSize: -1}).then(res => {
-            res.payload.items.map(item => {
-                console.log(item)
-                roles.push({
-                    label: item.definition,
-                    value: item.id
+        getRoles({page: 0, pageSize: -1})
+            .then(unwrapResult)
+            .then(res => {
+                res.items.map(item => {
+                    roles.push({
+                        label: item.definition,
+                        value: item.id
+                    })
                 })
+                setCurrentRoles(roles)
             })
-            setCurrentRoles(roles)
-        })
+            .catch(() => message.error("Role info could not be get"))
     }, [])
 
 
     const [form] = Form.useForm();
 
     const onFinish = values => {
-        console.log('Received values of form:', values);
-        createUser(values).then(res => console.log(res))
+        createUser(values)
+            .then(unwrapResult)
+            .then(() => {
+                message.success("The user create successfully").then()
+                navigate("/users")
+            })
+            .catch(() => message.error("The user could not be create !"))
     };
 
     const handleChange = () => {
@@ -131,7 +140,7 @@ function CreateUser({getRoles,createUser}) {
                 <Select options={currentRoles} onChange={handleChange}/>
             </Form.Item>
             <Form.Item>
-                <Button type="primary" htmlType="submit" style={{marginLeft:"138%"}}>
+                <Button type="primary" htmlType="submit" style={{marginLeft: "138%"}}>
                     Submit
                 </Button>
             </Form.Item>

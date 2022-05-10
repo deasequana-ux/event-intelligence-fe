@@ -16,16 +16,7 @@ const userSlice = createSlice({
     extraReducers: {
         [getUsers.fulfilled]: (state, action) => {
             return {...action.payload};
-        },
-        /*[createUser.fulfilled]: (state, action) => {
-            return {...action.payload};
-        },
-        [deleteUser.fulfilled]: (state, action) => {
-            return {...action.payload};
-        },
-        [updateUser.fulfilled]: (state, action) => {
-            return {...action.payload};
-        },*/
+        }
     },
 });
 const {reducer} = userSlice;

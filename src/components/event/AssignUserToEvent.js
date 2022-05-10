@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from "react-redux";
 import {assignUsersAction, getCandidateUsersToAssign} from "../../slices/event-slice";
-import {Button, Checkbox, Form, Table} from "antd";
+import {Button, Checkbox, Form, Table, message} from "antd";
 import {useNavigate, useParams} from "react-router";
+import {unwrapResult} from "@reduxjs/toolkit";
 
 function AssignUserToEvent({getCandidateUsersToAssign, assignUsersAction}) {
     const params = useParams();
     const navigate = useNavigate();
     const [tableData, setTableData] = useState([]);
-    const [data, setData] = useState([]);
+    const data = []
     useEffect(() => {
         getCandidateUsersToAssign(params.id).then(res => {
             res.payload.map(x => {
@@ -61,13 +62,14 @@ function AssignUserToEvent({getCandidateUsersToAssign, assignUsersAction}) {
         },
     ];
 
-    const onFinish = (values) => {
-        console.log(tableData)
-        assignUsersAction(tableData).then(res => console.log(res)).then(() => navigate(`/events/${params.id}`))
-    };
-
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+    const onFinish = () => {
+        assignUsersAction(tableData)
+            .then(unwrapResult)
+            .then(() => {
+                message.success("User assignment completed successfully.").then()
+                navigate(`/events/${params.id}`)
+            })
+            .catch(() => message.error("User assignment failed!"))
     };
     const [form] = Form.useForm();
     return (
@@ -78,7 +80,6 @@ function AssignUserToEvent({getCandidateUsersToAssign, assignUsersAction}) {
                    remember: true,
                }}
                onFinish={onFinish}
-               onFinishFailed={onFinishFailed}
                autoComplete="off"
            >
                <Form.Item>
