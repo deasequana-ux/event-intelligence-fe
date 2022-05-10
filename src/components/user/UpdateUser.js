@@ -13,16 +13,8 @@ function UpdateUser({getRoles, users, updateUser}) {
     const params = useParams();
     const roles = [];
     const [currentRoles, setCurrentRoles] = useState([]);
-    useEffect(() => {
-        getRoles({page: 0, pageSize: -1}).then(res => {
-            res.payload.items.map(item => {
-                roles.push({
-                    label: item.definition,
-                    value: item.id
-                })
-            })
-            setCurrentRoles(roles)
-        })
+
+    const setFormValues = () => {
         const currentUser = getUserByIdFromState(params.id)
         form.setFieldsValue({
             name: currentUser.name,
@@ -33,7 +25,18 @@ function UpdateUser({getRoles, users, updateUser}) {
             age:currentUser.age,
             department:currentUser.department,
         })
-
+    }
+    useEffect(() => {
+        getRoles({page: 0, pageSize: -1}).then(res => {
+            res.payload.items.forEach(item => {
+                roles.push({
+                    label: item.definition,
+                    value: item.id
+                })
+            })
+            setCurrentRoles(roles)
+        })
+        setFormValues()
     }, [])
 
 
@@ -44,10 +47,10 @@ function UpdateUser({getRoles, users, updateUser}) {
         updateUser(vv)
             .then(unwrapResult)
             .then(res => {
-            message.success("Kullanıcı güncelleme işlemi başarı ile gerçekleşti").then()
+            message.success("User update completed successfully").then()
             navigate("/users");
             })
-            .catch(() => message.error("Kullanıcı güncelleme işlemi gerçekleştirilemedi."))
+            .catch(() => message.error("User update could not completed !"))
     };
 
     const handleChange = () => {

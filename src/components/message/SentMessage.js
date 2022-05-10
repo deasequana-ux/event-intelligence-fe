@@ -16,7 +16,7 @@ function SentMessage({getSentMessages, id}) {
         getSentMessages({page: page, pageSize: pageSize, userId: id})
             .then(unwrapResult)
             .then((res) => {
-                res.items.map((item) => {
+                res.items.forEach((item) => {
                     data.push({
                         key: item.id,
                         title: item.title,

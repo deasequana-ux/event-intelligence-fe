@@ -23,9 +23,7 @@ function Login(props) {
                 message.success("Successfully logged in").then()
                 navigate("/events")
             })
-            .catch(() => {
-                message.error("Login failed").then()
-            })
+            .catch(() =>  message.error("Login failed"))
     };
 
     return (

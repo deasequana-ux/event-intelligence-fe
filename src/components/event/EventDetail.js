@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router";
-import {Avatar, Card, Comment, Divider, Input, message, Popconfirm} from "antd";
+import {Avatar, Card, Comment, Divider, Input, message} from "antd";
 import Meta from "antd/es/card/Meta";
 import {
     DeleteOutlined,
@@ -17,7 +17,7 @@ import {commentToEvent} from "../../slices/event-slice";
 import {admin, manager} from "../../utils/rolesDefinition";
 import {Pagination} from "antd";
 import {unwrapResult} from "@reduxjs/toolkit";
-import {commentsPaginationSize, userListPaginationSize} from "../../utils/paginationConfig";
+import {commentsPaginationSize} from "../../utils/paginationConfig";
 
 function EventDetail({
                          deleteEvent,
@@ -47,11 +47,10 @@ function EventDetail({
         return events.items.find(x => x.id === Number(id))
     }
 
-    const loadComments = (page,pageSize) => {
+    const loadComments = (page, pageSize) => {
         getCommentsByEventId({page: page, pageSize: pageSize, id: params.id})
             .then(unwrapResult)
             .then((res) => {
-                    console.log(res)
                     setComments(res);
                 }
             )
@@ -63,7 +62,7 @@ function EventDetail({
         loadComments(0, commentsPaginationSize);
         getAssignedUsers(params.id).then((res) => {
             setParticipants(res.payload);
-            res.payload.map((x) => {
+            res.payload.forEach((x) => {
                 if (x.userId === Number(id)) {
                     setIsNotOkToComment(false);
                 }
@@ -95,12 +94,17 @@ function EventDetail({
             userId: Number(id),
             eventId: Number(params.id),
         };
-        e.target.value = "";
-        commentToEvent(payload);
+        commentToEvent(payload)
+            .then(unwrapResult)
+            .then(() => {
+                message.success("Your comment has been pushed successfully").then()
+                loadComments(0, commentsPaginationSize);
+            })
+            .catch(() => message.success("Your comment has not been pushed !"))
     };
 
     function handlePageRequest(page, pageSize) {
-        loadComments(page-1, pageSize);
+        loadComments(page - 1, pageSize);
     }
 
     return (

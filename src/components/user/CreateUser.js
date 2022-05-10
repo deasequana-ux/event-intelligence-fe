@@ -15,7 +15,7 @@ function CreateUser({getRoles, createUser}) {
         getRoles({page: 0, pageSize: -1})
             .then(unwrapResult)
             .then(res => {
-                res.items.map(item => {
+                res.items.forEach(item => {
                     roles.push({
                         label: item.definition,
                         value: item.id

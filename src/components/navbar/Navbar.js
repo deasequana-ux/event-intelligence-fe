@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Menu} from 'antd';
 import {
     FireOutlined,
@@ -16,9 +16,7 @@ import {NavLink, useLocation} from "react-router-dom";
 function Navbar(props) {
     const location = useLocation();
     const navigate = useNavigate();
-    useEffect(() => {
-        console.log(location)
-    })
+
     return (
         <>
             <Menu mode="horizontal"

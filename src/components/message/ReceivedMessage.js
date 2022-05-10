@@ -16,8 +16,7 @@ function ReceivedMessage({getReceivedMessages, id}) {
         getReceivedMessages({page: page, pageSize: pageSize, userId: id})
             .then(unwrapResult)
             .then((res) => {
-                console.log(res)
-                res.items.map((item) => {
+                res.items.forEach((item) => {
                     data.push({
                         key: item.id,
                         title: item.title,
@@ -36,7 +35,6 @@ function ReceivedMessage({getReceivedMessages, id}) {
     }, []);
 
     function handlePageRequest(page, pageSize) {
-        console.log(page,pageSize)
         loadReceivedMessage(page-1,pageSize)
     }
 

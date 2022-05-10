@@ -12,7 +12,7 @@ function AssignUserToEvent({getCandidateUsersToAssign, assignUsersAction}) {
     const data = []
     useEffect(() => {
         getCandidateUsersToAssign(params.id).then(res => {
-            res.payload.map(x => {
+            res.payload.forEach(x => {
                 data.push({
                     key:x.userId,
                     name:x.name,
